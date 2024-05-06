@@ -1,0 +1,65 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - '**'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+
+jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-actions>
+  git-leaks:
+    name: GitLeaks
+    runs-on: ubuntu-20.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+
+      - name: Check for GitLeaks
+        with: {version: 8.16.0}
+        uses: gacts/gitleaks@v1.2.0 # Action page: <https://github.com/gacts/gitleaks>
+
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install -n --prefer-dist --no-progress --ansi && composer info
+
+      - name: Run Unit tests
+        env:
+          APP_ENV: local
+          RUNNING_IN_CI: true
+        run: |
+          vendor/bin/phpunit tests/Unit
