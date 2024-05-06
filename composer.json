@@ -1,0 +1,25 @@
+{
+    "name": "katsu/osu-api-php",
+    "description": "PHP client for OSU!",
+    "type": "library",
+    "require": {
+        "php": ">=8.3",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.1.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Katsu\\OsuApiPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "katsu",
+            "email": "den4ic2001@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
