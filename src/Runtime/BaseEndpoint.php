@@ -22,6 +22,5 @@ abstract class BaseEndpoint implements EndpointContract
 
     public function execute()
     {
-
     }
 }

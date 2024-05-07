@@ -9,7 +9,8 @@ class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
 {
     public function __construct(
         public readonly int $id
-    ){}
+    ) {
+    }
 
     public function getMethod(): string
     {

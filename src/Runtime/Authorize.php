@@ -19,36 +19,35 @@ class Authorize
         protected string $redirectUri,
         protected string $scope,
         ClientInterface $httpClient = null,
-    )
-    {
+    ) {
         $this->httpClient = $httpClient ?: $this->createHttpClient();
     }
 
     protected function createHttpClient(): ClientInterface
     {
         return new Client([
-            'base_uri' => $this->uri,
+            'base_uri'    => $this->uri,
             'http_errors' => false,
-            'headers' => [
+            'headers'     => [
                 'Accept' => 'application/json',
-            ]
+            ],
         ]);
     }
 
     public function getAuthorizationUrl(string $state = ''): string
     {
         $params = [
-            'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUri,
+            'client_id'     => $this->clientId,
+            'redirect_uri'  => $this->redirectUri,
             'response_type' => 'code',
-            'scope' => $this->scope,
+            'scope'         => $this->scope,
         ];
 
-        if(!empty($state)) {
+        if (!empty($state)) {
             $params['state'] = $state;
         }
 
-        return $this->uri . 'authorize' . '?' . http_build_query($params);
+        return $this->uri.'authorize'.'?'.http_build_query($params);
     }
 
     /**
@@ -70,19 +69,21 @@ class Authorize
     /**
      * @param string $code
      * @param string $grant_type authorization_code | refresh_token
-     * @return Tokens
+     *
      * @throws OsuApiException
+     *
+     * @return Tokens
      */
     protected function getTokens(string $code, string $grant_type = 'authorization_code'): Tokens
     {
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'grant_type' => $grant_type,
-            'redirect_uri' => $this->redirectUri,
+            'grant_type'    => $grant_type,
+            'redirect_uri'  => $this->redirectUri,
         ];
 
-        if($grant_type === 'authorization_code') {
+        if ($grant_type === 'authorization_code') {
             $params['code'] = $code;
         }
 
@@ -98,7 +99,7 @@ class Authorize
             $responseData = json_decode($reponse->getBody()->getContents());
 
             if ($reponse->getStatusCode() == 400) {
-                $message = $responseData->hint . ': ' . $responseData->error_description;
+                $message = $responseData->hint.': '.$responseData->error_description;
 
                 throw new OsuApiException($message, 400);
             }
@@ -113,7 +114,6 @@ class Authorize
                 $responseData->access_token,
                 $responseData->refresh_token,
             );
-
         } catch (GuzzleException $e) {
             throw new OsuApiException($e->getMessage(), 500);
         }

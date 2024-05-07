@@ -18,7 +18,7 @@ class BaseClient extends \Katsu\OsuApiPhp\Runtime\BaseClient
     {
         $httpClient = new \GuzzleHttp\Client([
             'base_uri' => $base_uri,
-//            'proxy' => $proxy,
+            //            'proxy' => $proxy,
         ]);
 
         return new self($oauthClient, $httpClient);
