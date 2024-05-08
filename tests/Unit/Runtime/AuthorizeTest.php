@@ -4,7 +4,7 @@ namespace Unit\Runtime;
 
 use GuzzleHttp\ClientInterface;
 use Katsu\OsuApiPhp\Dto\Tokens;
-use Katsu\OsuApiPhp\OsuApiException;
+use Katsu\OsuApiPhp\Exceptions\OsuAuthorizeException;
 use Katsu\OsuApiPhp\Runtime\Authorize;
 use PHPUnit\Framework\TestCase;
 
@@ -70,7 +70,7 @@ class AuthorizeTest extends TestCase
 
     public function testGetAccessTokenBadRequest()
     {
-        $this->expectException(OsuApiException::class);
+        $this->expectException(OsuAuthorizeException::class);
 
         $clientSecret = 'secret';
         $redirectUri = 'http://localhost';
@@ -99,7 +99,7 @@ class AuthorizeTest extends TestCase
 
     public function testGetAccessTokenServerError()
     {
-        $this->expectException(OsuApiException::class);
+        $this->expectException(OsuAuthorizeException::class);
 
         $clientSecret = 'secret';
         $redirectUri = 'http://localhost';
@@ -128,16 +128,18 @@ class AuthorizeTest extends TestCase
 
     public function testGetRefreshTokenServerError()
     {
-        $this->expectException(OsuApiException::class);
+        $this->expectException(OsuAuthorizeException::class);
 
         $clientSecret = 'secret';
         $redirectUri = 'http://localhost';
+        $refreshToken = 'refresh_token';
 
         $params = [
             'client_id' => $this->clientId,
             'client_secret' => $clientSecret,
             'grant_type' => 'refresh_token',
             'redirect_uri' => $redirectUri,
+            'refresh_token' => $refreshToken,
         ];
 
         $httpClientMock = $this->createHttpClientMock(500, '{"hint": "Check that all required parameters have been provided", "error_description": "The authorization grant type is not supported by the authorization server."}', $params);
@@ -150,20 +152,22 @@ class AuthorizeTest extends TestCase
             $httpClientMock,
         );
 
-        $authorize->getRefreshToken('refresh_token');
+        $authorize->getRefreshToken($refreshToken);
     }
 
     public function testGetRefreshTokenBadRequest()
     {
-        $this->expectException(OsuApiException::class);
+        $this->expectException(OsuAuthorizeException::class);
 
         $clientSecret = 'secret';
         $redirectUri = 'http://localhost';
+        $refreshToken = 'refresh_token';
 
         $params = [
             'client_id' => $this->clientId,
             'client_secret' => $clientSecret,
             'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
             'redirect_uri' => $redirectUri,
         ];
 
@@ -177,7 +181,7 @@ class AuthorizeTest extends TestCase
             $httpClientMock,
         );
 
-        $authorize->getRefreshToken('refresh_token');
+        $authorize->getRefreshToken($refreshToken);
     }
 
     public function testGetRefreshTokenSuccess()
@@ -191,6 +195,7 @@ class AuthorizeTest extends TestCase
             'client_id' => $this->clientId,
             'client_secret' => $clientSecret,
             'grant_type' => 'refresh_token',
+            'refresh_token' => $refreshToken,
             'redirect_uri' => $redirectUri,
         ];
 

@@ -1,7 +1,7 @@
 <?php
 
 
-use Katsu\OsuApiPhp\BaseClient;
+use Katsu\OsuApiPhp\Client;
 use Katsu\OsuApiPhp\Dto\OAuthClient;
 use Katsu\OsuApiPhp\Dto\Proxy;
 use PHPUnit\Framework\TestCase;
@@ -20,8 +20,8 @@ class ClientTest extends TestCase
             3141
         );
 
-        $client = BaseClient::create($oauthClient, $proxy);
+        $client = Client::create($oauthClient, $proxy);
 
-        $this->assertInstanceOf(BaseClient::class, $client);
+        $this->assertInstanceOf(Client::class, $client);
     }
 }
