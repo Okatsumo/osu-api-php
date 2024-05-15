@@ -20,5 +20,4 @@ class BeatmapRecentFavourites extends BaseModel implements ModelContract
     public bool $pm_friends_only;
     public ?string $profile_colour;
     public string $username;
-
 }

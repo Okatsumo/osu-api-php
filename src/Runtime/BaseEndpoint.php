@@ -5,7 +5,6 @@ namespace Katsu\OsuApiPhp\Runtime;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\TransferStats;
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Contracts\ModelContract;
 use Katsu\OsuApiPhp\Dto\Tokens;
@@ -33,7 +32,7 @@ abstract class BaseEndpoint implements EndpointContract
     }
 
     /**
-     * Execute endpoint
+     * Execute endpoint.
      *
      * @throws OsuApiException
      */
@@ -45,14 +44,14 @@ abstract class BaseEndpoint implements EndpointContract
         }
 
         if (!is_null($this->tokens)) {
-            $this->headers['Authorization'] = $this->tokens->tokenType . ' ' . $this->tokens->accessToken;
+            $this->headers['Authorization'] = $this->tokens->tokenType.' '.$this->tokens->accessToken;
         }
 
         $this->headers['Connection'] = 'keep-alive';
 
         $options = [
             'connect_timeout' => 60,
-            'headers' => $this->headers,
+            'headers'         => $this->headers,
         ];
 
         if ($this->getMethod() === HttpMethod::GET) {
@@ -68,17 +67,13 @@ abstract class BaseEndpoint implements EndpointContract
             $data = (array) json_decode($request->getBody()->getContents(), false);
 
             return $this->transformResponseBody($data);
-
         } catch (GuzzleException $e) {
             if ($e->getCode() === 401) {
                 throw new OsuApiException('401 Unauthorized', 401);
-
-            } elseif($e->getCode() === 404) {
+            } elseif ($e->getCode() === 404) {
                 throw new OsuApiException('404 Resource not found', 404);
-
-            }elseif($e->getCode() === 0) {
+            } elseif ($e->getCode() === 0) {
                 throw new OsuApiException('HTTP request error: API unavailable', 500);
-
             } else {
                 throw new OsuApiException($e->getMessage(), $e->getCode());
             }

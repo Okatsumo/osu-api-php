@@ -76,5 +76,4 @@ class Beatmapset extends BaseModel implements ModelContract
      */
     public array $related_users;
     public User $user;
-
 }

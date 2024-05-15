@@ -8,12 +8,14 @@ use Katsu\OsuApiPhp\Exceptions\OsuApiException;
 class Serializer
 {
     /**
-     * Serialize Array to Model
+     * Serialize Array to Model.
      *
      * @param array $data
-     * @param $model
-     * @return ModelContract
+     * @param       $model
+     *
      * @throws OsuApiException
+     *
+     * @return ModelContract
      */
     public function serialize(array $data, $model): ModelContract
     {
@@ -26,26 +28,22 @@ class Serializer
 
         foreach ($propertyList as $property) {
             if (is_null($property->getType())) {
-                throw new OsuApiException('Property ' . $property->getName() . ' type not specified', 500);
+                throw new OsuApiException('Property '.$property->getName().' type not specified', 500);
             }
 
             $propertyName = $property->getName();
-            $propertyValue =  $data[$propertyName] ?? null;
+            $propertyValue = $data[$propertyName] ?? null;
             $propertyType = $property->getType()->getName();
 
             if ($property->getType()->getName() === 'DateTime') {
                 $model->$propertyName = $this->setDateTime($propertyValue);
-
             } elseif ($propertyType === 'int' || $propertyType === 'bool' || $propertyType === 'string' || $propertyType === 'float') {
                 $model->$propertyName = $this->setSimpleProperty($propertyName, $propertyValue, $data);
-
             } elseif (is_array($propertyValue)) {
                 $model->$propertyName = $this->setArrayProperty($propertyValue);
-
             } else {
                 $model->$propertyName = $this->setComplexProperty($propertyValue, $propertyType);
             }
-
         }
 
         return $model;
@@ -73,6 +71,7 @@ class Serializer
 
             return $data[$propertyName] ?? null;
         }
+
         return $propertyValue;
     }
 
@@ -90,7 +89,7 @@ class Serializer
 
     protected function setDateTime(string|null $date): ?\DateTime
     {
-        if (is_null($date)){
+        if (is_null($date)) {
             return null;
         }
 
