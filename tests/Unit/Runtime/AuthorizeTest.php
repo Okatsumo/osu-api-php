@@ -23,8 +23,7 @@ class AuthorizeTest extends TestCase
 
         $url = $authorize->getAuthorizationUrl();
         $this->assertIsString($url);
-        $this->assertEquals('osu.ppy.sh/oauth/authorize?client_id=' . $this->clientId . '&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=public', $url);
-
+        $this->assertEquals('osu.ppy.sh/oauth/authorize?client_id='.$this->clientId.'&redirect_uri=http%3A%2F%2Flocalhost&response_type=code&scope=public', $url);
     }
 
     private function createHttpClientMock(int $responseCode, $responseBody, $params): ClientInterface
@@ -38,7 +37,6 @@ class AuthorizeTest extends TestCase
         return $httpClientMock;
     }
 
-
     public function testGetAccessTokenSuccess()
     {
         $clientSecret = 'secret';
@@ -47,11 +45,11 @@ class AuthorizeTest extends TestCase
 
         $tokensEquals = new Tokens('Bearer', 3600, 'access_token', 'refresh_token');
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $clientSecret,
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $redirectUri,
+            'code'          => $code,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $redirectUri,
         ];
 
         $httpClientMock = $this->createHttpClientMock(200, '{"token_type": "Bearer", "expires_in": 3600, "access_token": "access_token", "refresh_token": "refresh_token"}', $params);
@@ -77,11 +75,11 @@ class AuthorizeTest extends TestCase
         $code = 'code';
 
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $clientSecret,
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $redirectUri,
+            'code'          => $code,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $redirectUri,
         ];
 
         $httpClientMock = $this->createHttpClientMock(400, '{"hint": "Check that all required parameters have been provided", "error_description": "The authorization grant type is not supported by the authorization server."}', $params);
@@ -106,11 +104,11 @@ class AuthorizeTest extends TestCase
         $code = 'code';
 
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $clientSecret,
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $redirectUri,
+            'code'          => $code,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $redirectUri,
         ];
 
         $httpClientMock = $this->createHttpClientMock(500, '{"hint": "Check that all required parameters have been provided", "error_description": "The authorization grant type is not supported by the authorization server."}', $params);
@@ -135,10 +133,10 @@ class AuthorizeTest extends TestCase
         $refreshToken = 'refresh_token';
 
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $clientSecret,
-            'grant_type' => 'refresh_token',
-            'redirect_uri' => $redirectUri,
+            'grant_type'    => 'refresh_token',
+            'redirect_uri'  => $redirectUri,
             'refresh_token' => $refreshToken,
         ];
 
@@ -164,11 +162,11 @@ class AuthorizeTest extends TestCase
         $refreshToken = 'refresh_token';
 
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $clientSecret,
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $refreshToken,
-            'redirect_uri' => $redirectUri,
+            'redirect_uri'  => $redirectUri,
         ];
 
         $httpClientMock = $this->createHttpClientMock(400, '{"hint": "Check that all required parameters have been provided", "error_description": "The authorization grant type is not supported by the authorization server."}', $params);
@@ -192,11 +190,11 @@ class AuthorizeTest extends TestCase
 
         $tokensEquals = new Tokens('Bearer', 3600, 'access_token', 'refresh_token');
         $params = [
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $clientSecret,
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $refreshToken,
-            'redirect_uri' => $redirectUri,
+            'redirect_uri'  => $redirectUri,
         ];
 
         $httpClientMock = $this->createHttpClientMock(200, '{"token_type": "Bearer", "expires_in": 3600, "access_token": "access_token", "refresh_token": "refresh_token"}', $params);

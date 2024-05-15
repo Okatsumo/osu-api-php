@@ -6,6 +6,5 @@ class Endpoint
 {
     public function parse()
     {
-
     }
 }

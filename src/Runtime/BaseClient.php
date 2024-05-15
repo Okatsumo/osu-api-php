@@ -1,4 +1,5 @@
 <?php
+
 namespace Katsu\OsuApiPhp\Runtime;
 
 use GuzzleHttp\ClientInterface;

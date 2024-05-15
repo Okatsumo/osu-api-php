@@ -9,5 +9,6 @@ final readonly class Tokens
         public int $expiresIn,
         public string $accessToken,
         public string $refreshToken,
-    ){}
+    ) {
+    }
 }

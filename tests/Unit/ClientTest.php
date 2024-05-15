@@ -1,6 +1,5 @@
 <?php
 
-
 use Katsu\OsuApiPhp\Client;
 use Katsu\OsuApiPhp\Dto\OAuthClient;
 use Katsu\OsuApiPhp\Dto\Proxy;

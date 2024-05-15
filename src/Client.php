@@ -16,9 +16,10 @@ class Client extends BaseClient
     protected OAuthClient $oauthClient;
 
     /**
-     * Doc: https://osu.ppy.sh/docs/index.html#get-apiv2beatmapsetsbeatmapset
+     * Doc: https://osu.ppy.sh/docs/index.html#get-apiv2beatmapsetsbeatmapset.
      *
      * @param int $id
+     *
      * @return Beatmapset
      */
     public function getBeatmapsetById(int $id): Beatmapset
@@ -27,9 +28,10 @@ class Client extends BaseClient
     }
 
     /**
-     *  Doc: https://osu.ppy.sh/docs/index.html#todo-documentation
+     *  Doc: https://osu.ppy.sh/docs/index.html#todo-documentation.
      *
      * @param array $params
+     *
      * @return BeatmapsetsSearch
      */
     public function searchBeatmapsets(array $params = []): BeatmapsetsSearch
@@ -40,9 +42,9 @@ class Client extends BaseClient
     public static function create(OAuthClient $oauthClient, ?Proxy $proxy = null, string $base_uri = 'https://osu.ppy.sh/api/v2/'): Client
     {
         $httpClient = new \GuzzleHttp\Client([
-            'base_uri' => $base_uri,
+            'base_uri'   => $base_uri,
             'User-Agent' => 'osu-api-php',
-//            'proxy' => $proxy,
+            //            'proxy' => $proxy,
         ]);
 
         return new self($oauthClient, $httpClient);
