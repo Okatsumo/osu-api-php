@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Katsu\OsuApiPhp\Dto\Tokens;
-use Katsu\OsuApiPhp\OsuApiException;
+use Katsu\OsuApiPhp\Exceptions\OsuAuthorizeException;
 
 class Authorize
 {
@@ -52,7 +52,7 @@ class Authorize
     }
 
     /**
-     * @throws OsuApiException
+     * @throws OsuAuthorizeException
      */
     public function getRefreshToken(string $code): Tokens
     {
@@ -60,7 +60,7 @@ class Authorize
     }
 
     /**
-     * @throws OsuApiException
+     * @throws OsuAuthorizeException
      */
     public function getAccessToken($refreshToken): Tokens
     {
@@ -71,7 +71,7 @@ class Authorize
      * @param string $code
      * @param string $grant_type authorization_code | refresh_token
      * @return Tokens
-     * @throws OsuApiException
+     * @throws OsuAuthorizeException
      */
     protected function getTokens(string $code, string $grant_type = 'authorization_code'): Tokens
     {
@@ -84,14 +84,13 @@ class Authorize
 
         if($grant_type === 'authorization_code') {
             $params['code'] = $code;
-        }
 
-        if ($grant_type === 'refresh_token') {
-            $params['grant_type'] = $code;
+        } elseif ($grant_type === 'refresh_token') {
+            $params['refresh_token'] = $code;
+
+        } else {
+            throw new OsuAuthorizeException('Unknown grant_type', 500);
         }
-//        else {
-//            throw new OsuApiException('Unknown grant_type', 500);
-//        }
 
         try {
             $reponse = $this->httpClient->request('POST', 'token', ['form_params' => $params]);
@@ -100,11 +99,11 @@ class Authorize
             if ($reponse->getStatusCode() == 400) {
                 $message = $responseData->hint . ': ' . $responseData->error_description;
 
-                throw new OsuApiException($message, 400);
+                throw new OsuAuthorizeException($message, 400);
             }
 
             if ($reponse->getStatusCode() == 500) {
-                throw new OsuApiException('Server error', 500);
+                throw new OsuAuthorizeException('Server error', 500);
             }
 
             return new Tokens(
@@ -115,7 +114,7 @@ class Authorize
             );
 
         } catch (GuzzleException $e) {
-            throw new OsuApiException($e->getMessage(), 500);
+            throw new OsuAuthorizeException($e->getMessage(), 500);
         }
     }
 }
