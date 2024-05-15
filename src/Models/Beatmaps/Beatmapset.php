@@ -39,7 +39,7 @@ class Beatmapset extends BaseModel implements ModelContract
     public int $ranked;
     public ?\DateTime $ranked_date;
     public bool $storyboard;
-    public \DateTime $submitted_date;
+    public ?\DateTime $submitted_date;
     public string $tags;
     public BeatmapsetsAvailability $availability;
 
@@ -51,7 +51,6 @@ class Beatmapset extends BaseModel implements ModelContract
      * @var \Katsu\OsuApiPhp\Models\Beatmaps\Beatmap[]
      */
     public array $converts;
-
 
     /**
      * @var \Katsu\OsuApiPhp\Models\Beatmaps\BeatmapNomination[]

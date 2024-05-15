@@ -5,17 +5,11 @@ namespace Katsu\OsuApiPhp\Endpoints;
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetsSearch;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
-class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
+class SearchBeatmapsets extends BaseEndpoint implements EndpointContract
 {
-    public int $id;
-
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
     public function getIsAuthRequired(): bool
     {
         return true;
@@ -28,16 +22,19 @@ class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
 
     public function getUri(): string
     {
-        return str_replace(['{id}'], [$this->id], 'beatmapsets/{id}');
+        return '/beatmapsets/search';
     }
 
     public function getHeaders(): array
     {
-        return ['Accept' => 'application/json'];
+        return [
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ];
     }
 
     public function getModel(): string
     {
-        return Beatmapset::class;
+        return BeatmapsetsSearch::class;
     }
 }

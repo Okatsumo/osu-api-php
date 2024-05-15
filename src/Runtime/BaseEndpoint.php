@@ -9,6 +9,7 @@ use GuzzleHttp\TransferStats;
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Contracts\ModelContract;
 use Katsu\OsuApiPhp\Dto\Tokens;
+use Katsu\OsuApiPhp\Enums\HttpMethod;
 use Katsu\OsuApiPhp\Exceptions\OsuApiException;
 
 abstract class BaseEndpoint implements EndpointContract
@@ -16,6 +17,7 @@ abstract class BaseEndpoint implements EndpointContract
     protected string $uri;
     protected string $method;
     protected array $headers;
+    protected array $queryParams = [];
     protected ClientInterface $client;
     protected ?Tokens $tokens;
 
@@ -25,17 +27,25 @@ abstract class BaseEndpoint implements EndpointContract
         $this->client = $httpClient;
     }
 
+    public function setParameters(array $params): void
+    {
+        $this->queryParams = $params;
+    }
+
     /**
+     * Execute endpoint
+     *
      * @throws OsuApiException
      */
     public function execute(): ModelContract
     {
+        // Returns exception if endpoint requires authorization and token is empty
         if ($this->getIsAuthRequired() && is_null($this->tokens)) {
             throw new OsuApiException('Authorization required', 403);
         }
 
         if (!is_null($this->tokens)) {
-            $this->headers['Authorization'] = str_replace(['{type}', '{token}'], [$this->tokens->tokenType, $this->tokens->accessToken], '{type} {token}');
+            $this->headers['Authorization'] = $this->tokens->tokenType . ' ' . $this->tokens->accessToken;
         }
 
         $this->headers['Connection'] = 'keep-alive';
@@ -43,13 +53,18 @@ abstract class BaseEndpoint implements EndpointContract
         $options = [
             'connect_timeout' => 60,
             'headers' => $this->headers,
-            'on_stats' => function (TransferStats $stats) use (&$url) {
-                $url = $stats->getEffectiveUri();
-            }
         ];
 
+        if ($this->getMethod() === HttpMethod::GET) {
+            $options['query'] = $this->queryParams;
+        }
+
+        if ($this->getMethod() === HttpMethod::POST) {
+            $options['form_params'] = $this->queryParams;
+        }
+
         try {
-            $request = $this->client->request($this->getMethod(), $this->getUri(), $options);
+            $request = $this->client->request($this->getMethod()->value, $this->getUri(), $options);
             $data = (array) json_decode($request->getBody()->getContents(), false);
 
             return $this->transformResponseBody($data);

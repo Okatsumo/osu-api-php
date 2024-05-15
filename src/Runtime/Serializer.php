@@ -25,6 +25,10 @@ class Serializer
         $propertyList = $model->getPropertiesList();
 
         foreach ($propertyList as $property) {
+            if (is_null($property->getType())) {
+                throw new OsuApiException('Property ' . $property->getName() . ' type not specified', 500);
+            }
+
             $propertyName = $property->getName();
             $propertyValue =  $data[$propertyName] ?? null;
             $propertyType = $property->getType()->getName();
