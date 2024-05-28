@@ -17,7 +17,7 @@ class Authorize
         protected int $clientId,
         protected string $clientSecret,
         protected string $redirectUri,
-        protected string $scope,
+        protected string $scopes,
         ClientInterface $httpClient = null,
     ) {
         $this->httpClient = $httpClient ?: $this->createHttpClient();
@@ -40,7 +40,7 @@ class Authorize
             'client_id'     => $this->clientId,
             'redirect_uri'  => $this->redirectUri,
             'response_type' => 'code',
-            'scope'         => $this->scope,
+            'scope'         => $this->scopes,
         ];
 
         if (!empty($state)) {
@@ -61,9 +61,9 @@ class Authorize
     /**
      * @throws OsuAuthorizeException
      */
-    public function getAccessToken($refreshToken): Tokens
+    public function getAccessToken(string $code): Tokens
     {
-        return $this->getTokens($refreshToken);
+        return $this->getTokens($code);
     }
 
     /**
