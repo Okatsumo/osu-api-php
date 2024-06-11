@@ -11,4 +11,9 @@ abstract class BaseModel implements ModelContract
     {
         return (new ReflectionClass(static::class))->getProperties();
     }
+
+    public function getPropertyArray(): array
+    {
+        return get_object_vars($this);
+    }
 }

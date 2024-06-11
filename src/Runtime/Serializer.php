@@ -42,7 +42,9 @@ class Serializer
             } elseif (is_array($propertyValue)) {
                 $model->$propertyName = $this->setArrayProperty($propertyValue);
             } else {
-                $model->$propertyName = $this->setComplexProperty($propertyValue, $propertyType);
+                if (array_key_exists($propertyName, $data)) {
+                    $model->$propertyName = $this->setComplexProperty($propertyValue, $propertyType);
+                }
             }
         }
 
