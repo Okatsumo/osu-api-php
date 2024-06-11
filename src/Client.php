@@ -7,6 +7,7 @@ use Katsu\OsuApiPhp\Dto\OAuthClient;
 use Katsu\OsuApiPhp\Dto\Proxy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
+use Katsu\OsuApiPhp\Endpoints\LookupBeatmapsets;
 use Katsu\OsuApiPhp\Endpoints\SearchBeatmapsets;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
@@ -39,6 +40,18 @@ class Client extends BaseClient
     public function getBeatmapById(int $id): Beatmap
     {
         return $this->executeEndpoint(GetBeatmapById::class, $id);
+    }
+
+    /**
+     * Doc: https://osu.ppy.sh/docs/index.html#get-apiv2beatmapsetslookup.
+     *
+     * @param int $id
+     *
+     * @return Beatmapset
+     */
+    public function lookupBeatmapsets(int $id): Beatmapset
+    {
+        return $this->executeEndpoint(LookupBeatmapsets::class, null, ['beatmap_id' => $id]);
     }
 
     /**
