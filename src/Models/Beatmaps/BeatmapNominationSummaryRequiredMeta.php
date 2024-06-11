@@ -9,5 +9,4 @@ class BeatmapNominationSummaryRequiredMeta extends BaseModel implements ModelCon
 {
     public int $main_ruleset;
     public int $non_main_ruleset;
-
 }
