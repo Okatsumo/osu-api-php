@@ -9,7 +9,6 @@ use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
 class GetBeatmapPacks extends BaseEndpoint implements EndpointContract
 {
-
     public function getIsAuthRequired(): bool
     {
         return true;
@@ -28,7 +27,7 @@ class GetBeatmapPacks extends BaseEndpoint implements EndpointContract
     public function getHeaders(): array
     {
         return [
-            'Accept' => 'application/json',
+            'Accept'       => 'application/json',
             'Content-Type' => 'application/json',
         ];
     }

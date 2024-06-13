@@ -20,5 +20,4 @@ class BeatmapPack extends BaseModel implements ModelContract
      */
     public array $beatmapsets;
     public BeatmapsUserCompletion $user_completion_data;
-
 }
