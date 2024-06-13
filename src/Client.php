@@ -74,11 +74,11 @@ class Client extends BaseClient
      *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-pack.
      *
      * @param string $tag
-     * @param array $params
+     * @param array  $params
      *
      * @return BeatmapPack
      */
-    public function getBeatmapPackById(string $tag ,array $params = []): BeatmapPack
+    public function getBeatmapPackById(string $tag, array $params = []): BeatmapPack
     {
         return $this->executeEndpoint(GetBeatmapPackById::class, $tag, $params);
     }
