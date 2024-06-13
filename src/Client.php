@@ -6,10 +6,14 @@ use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Dto\OAuthClient;
 use Katsu\OsuApiPhp\Dto\Proxy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapById;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmapPackById;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmapPacks;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
 use Katsu\OsuApiPhp\Endpoints\LookupBeatmapsets;
 use Katsu\OsuApiPhp\Endpoints\SearchBeatmapsets;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPack;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPacks;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetsSearch;
 use Katsu\OsuApiPhp\Runtime\BaseClient;
@@ -66,6 +70,31 @@ class Client extends BaseClient
         return $this->executeEndpoint(SearchBeatmapsets::class, null, $params);
     }
 
+    /**
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-pack.
+     *
+     * @param string $tag
+     * @param array $params
+     *
+     * @return BeatmapPack
+     */
+    public function getBeatmapPackById(string $tag ,array $params = []): BeatmapPack
+    {
+        return $this->executeEndpoint(GetBeatmapPackById::class, $tag, $params);
+    }
+
+    /**
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-packs.
+     *
+     * @param array $params
+     *
+     * @return BeatmapPacks
+     */
+    public function getBeatmapPacks(array $params = []): BeatmapPacks
+    {
+        return $this->executeEndpoint(GetBeatmapPacks::class, null, $params);
+    }
+
     public static function create(OAuthClient $oauthClient, ?Proxy $proxy = null, string $base_uri = 'https://osu.ppy.sh/api/v2/'): Client
     {
         $httpClient = new \GuzzleHttp\Client([
@@ -77,7 +106,7 @@ class Client extends BaseClient
         return new self($oauthClient, $httpClient);
     }
 
-    protected function executeEndpoint(string $endpointClass, ?int $id = null, array $params = [])
+    protected function executeEndpoint(string $endpointClass, int|string|null $id = null, array $params = [])
     {
         /** @var EndpointContract $endpoint */
         $endpoint = new $endpointClass($this->httpClient, $this->token);
