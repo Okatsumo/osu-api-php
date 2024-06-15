@@ -8,6 +8,7 @@ use Katsu\OsuApiPhp\Dto\Proxy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPackById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPacks;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmapScores;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScore;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScores;
@@ -20,6 +21,7 @@ use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPacks;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScore;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetsSearch;
+use Katsu\OsuApiPhp\Models\UserScores;
 use Katsu\OsuApiPhp\Runtime\BaseClient;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
@@ -144,15 +146,35 @@ class Client extends BaseClient
      *
      * @throws OsuApiException
      *
-     * @return Contracts\ModelContract|BeatmapScore
+     * @return Contracts\ModelContract|UserScores
      */
-    public function getUserBeatmapScores(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|BeatmapScore
+    public function getUserBeatmapScores(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|UserScores
     {
         return $this
             ->prepareEndpoint(GetUserBeatmapScores::class)
             ->setParameters($params)
             ->setBeatmapId($beatmapId)
             ->setUserId($userId)
+            ->execute();
+    }
+
+    /**
+     *  Returns the top scores for a beatmap. Depending on user preferences, this may only show legacy scores.
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-scores.
+     *
+     * @param int   $beatmapId
+     * @param array $params
+     *
+     * @return Contracts\ModelContract|UserScores
+     *@throws OsuApiException
+     *
+     */
+    public function getBeatmapScores(int $beatmapId, array $params = []): Contracts\ModelContract|UserScores
+    {
+        return $this
+            ->prepareEndpoint(GetBeatmapScores::class)
+            ->setParameters($params)
+            ->setBeatmapId($beatmapId)
             ->execute();
     }
 
