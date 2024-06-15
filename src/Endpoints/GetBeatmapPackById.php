@@ -11,9 +11,11 @@ class GetBeatmapPackById extends BaseEndpoint implements EndpointContract
 {
     public string $pack;
 
-    public function setId(string $id): void
+    public function setPack(string $tag): self
     {
-        $this->pack = $id;
+        $this->pack = $tag;
+
+        return $this;
     }
 
     public function getIsAuthRequired(): bool

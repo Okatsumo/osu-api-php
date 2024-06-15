@@ -11,9 +11,11 @@ class GetBeatmapById extends BaseEndpoint implements EndpointContract
 {
     public int $id;
 
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     public function getIsAuthRequired(): bool

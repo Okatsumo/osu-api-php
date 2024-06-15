@@ -26,9 +26,11 @@ abstract class BaseEndpoint implements EndpointContract
         $this->client = $httpClient;
     }
 
-    public function setParameters(array $params): void
+    public function setParameters(array $params): self
     {
         $this->queryParams = $params;
+
+        return $this;
     }
 
     /**
@@ -67,16 +69,9 @@ abstract class BaseEndpoint implements EndpointContract
             $data = (array) json_decode($request->getBody()->getContents(), false);
 
             return $this->transformResponseBody($data);
-        } catch (GuzzleException $e) {
-            if ($e->getCode() === 401) {
-                throw new OsuApiException('401 Unauthorized', 401);
-            } elseif ($e->getCode() === 404) {
-                throw new OsuApiException('404 Resource not found', 404);
-            } elseif ($e->getCode() === 0) {
-                throw new OsuApiException('HTTP request error: API unavailable', 500);
-            } else {
-                throw new OsuApiException($e->getMessage(), $e->getCode());
-            }
+
+        } catch (GuzzleException $ex) {
+            $this->exceptionHandler($ex);
         }
     }
 
@@ -88,5 +83,21 @@ abstract class BaseEndpoint implements EndpointContract
         $serializer = new Serializer();
 
         return $serializer->serialize($data, $this->getModel());
+    }
+
+    /**
+     * @throws OsuApiException
+     */
+    protected function exceptionHandler(GuzzleException $ex): void
+    {
+        if ($ex->getCode() === 401) {
+            throw new OsuApiException('401 Unauthorized', 401);
+        } elseif ($ex->getCode() === 404) {
+            throw new OsuApiException('404 Resource not found', 404);
+        } elseif ($ex->getCode() === 0) {
+            throw new OsuApiException('HTTP request error: API unavailable', 500);
+        } else {
+            throw new OsuApiException($ex->getMessage(), $ex->getCode());
+        }
     }
 }

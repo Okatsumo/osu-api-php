@@ -16,5 +16,5 @@ interface EndpointContract
 
     public function getModel(): string;
 
-    public function setParameters(array $params): void;
+    public function setParameters(array $params): self;
 }
