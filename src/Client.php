@@ -10,6 +10,7 @@ use Katsu\OsuApiPhp\Endpoints\GetBeatmapPackById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPacks;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScore;
+use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScores;
 use Katsu\OsuApiPhp\Endpoints\LookupBeatmapsets;
 use Katsu\OsuApiPhp\Endpoints\SearchBeatmapsets;
 use Katsu\OsuApiPhp\Exceptions\OsuApiException;
@@ -128,6 +129,27 @@ class Client extends BaseClient
     {
         return $this
             ->prepareEndpoint(GetUserBeatmapScore::class)
+            ->setParameters($params)
+            ->setBeatmapId($beatmapId)
+            ->setUserId($userId)
+            ->execute();
+    }
+
+    /**
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-a-user-beatmap-scores.
+     *
+     * @param int   $beatmapId
+     * @param int   $userId
+     * @param array $params
+     *
+     * @throws OsuApiException
+     *
+     * @return Contracts\ModelContract|BeatmapScore
+     */
+    public function getUserBeatmapScores(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|BeatmapScore
+    {
+        return $this
+            ->prepareEndpoint(GetUserBeatmapScores::class)
             ->setParameters($params)
             ->setBeatmapId($beatmapId)
             ->setUserId($userId)
