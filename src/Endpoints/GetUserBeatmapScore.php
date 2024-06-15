@@ -4,7 +4,6 @@ namespace Katsu\OsuApiPhp\Endpoints;
 
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
-use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScore;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
@@ -45,7 +44,7 @@ class GetUserBeatmapScore extends BaseEndpoint implements EndpointContract
     public function getHeaders(): array
     {
         return [
-            'Accept' => 'application/json',
+            'Accept'       => 'application/json',
             'Content-Type' => 'application/json',
         ];
     }

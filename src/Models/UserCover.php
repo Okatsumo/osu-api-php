@@ -3,7 +3,6 @@
 namespace Katsu\OsuApiPhp\Models;
 
 use Katsu\OsuApiPhp\Contracts\ModelContract;
-use Katsu\OsuApiPhp\Models\BaseModel;
 
 class UserCover extends BaseModel implements ModelContract
 {
