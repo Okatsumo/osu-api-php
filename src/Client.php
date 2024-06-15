@@ -31,8 +31,9 @@ class Client extends BaseClient
      *
      * @param int $id
      *
-     * @return ModelContract|Beatmapset
      * @throws OsuApiException
+     *
+     * @return ModelContract|Beatmapset
      */
     public function getBeatmapsetById(int $id): Contracts\ModelContract|Beatmapset
     {
@@ -47,8 +48,9 @@ class Client extends BaseClient
      *
      * @param int $id
      *
-     * @return ModelContract|Beatmap
      * @throws OsuApiException
+     *
+     * @return ModelContract|Beatmap
      */
     public function getBeatmapById(int $id): Contracts\ModelContract|Beatmap
     {
@@ -63,8 +65,9 @@ class Client extends BaseClient
      *
      * @param int $id
      *
-     * @return ModelContract|Beatmapset
      * @throws OsuApiException
+     *
+     * @return ModelContract|Beatmapset
      */
     public function lookupBeatmapsets(int $id): Contracts\ModelContract|Beatmapset
     {
@@ -79,8 +82,9 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return ModelContract|BeatmapsetsSearch
      * @throws OsuApiException
+     *
+     * @return ModelContract|BeatmapsetsSearch
      */
     public function searchBeatmapsets(array $params = []): Contracts\ModelContract|BeatmapsetsSearch
     {
@@ -94,10 +98,11 @@ class Client extends BaseClient
      *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-pack.
      *
      * @param string $tag
-     * @param array $params
+     * @param array  $params
+     *
+     * @throws OsuApiException
      *
      * @return ModelContract|BeatmapPack
-     * @throws OsuApiException
      */
     public function getBeatmapPackById(string $tag, array $params = []): Contracts\ModelContract|BeatmapPack
     {
@@ -111,12 +116,13 @@ class Client extends BaseClient
     /**
      *  Doc: https://osu.ppy.sh/docs/index.html#get-a-user-beatmap-score.
      *
-     * @param int $beatmapId
-     * @param int $userId
+     * @param int   $beatmapId
+     * @param int   $userId
      * @param array $params
      *
-     * @return Contracts\ModelContract|BeatmapScore
      * @throws OsuApiException
+     *
+     * @return Contracts\ModelContract|BeatmapScore
      */
     public function getUserBeatmapScore(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|BeatmapScore
     {
@@ -133,8 +139,9 @@ class Client extends BaseClient
      *
      * @param array $params
      *
-     * @return ModelContract|BeatmapPacks
      * @throws OsuApiException
+     *
+     * @return ModelContract|BeatmapPacks
      */
     public function getBeatmapPacks(array $params = []): Contracts\ModelContract|BeatmapPacks
     {

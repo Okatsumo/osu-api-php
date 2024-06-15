@@ -2,7 +2,6 @@
 
 namespace Katsu\OsuApiPhp\Models;
 
-use Cassandra\Date;
 use Katsu\OsuApiPhp\Contracts\ModelContract;
 
 class ScoreStatistics extends BaseModel implements ModelContract

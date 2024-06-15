@@ -3,7 +3,6 @@
 namespace Katsu\OsuApiPhp\Models;
 
 use Katsu\OsuApiPhp\Contracts\ModelContract;
-use Katsu\OsuApiPhp\Models\BaseModel;
 
 class Country extends BaseModel implements ModelContract
 {

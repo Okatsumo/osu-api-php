@@ -69,7 +69,6 @@ abstract class BaseEndpoint implements EndpointContract
             $data = (array) json_decode($request->getBody()->getContents(), false);
 
             return $this->transformResponseBody($data);
-
         } catch (GuzzleException $ex) {
             $this->exceptionHandler($ex);
         }
