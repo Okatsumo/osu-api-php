@@ -9,5 +9,4 @@ class Mode extends BaseModel implements ModelContract
 {
     public string $acronym;
     public array $settings;
-
 }
