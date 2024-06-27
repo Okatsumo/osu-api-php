@@ -32,8 +32,9 @@ class Beatmap extends BaseModel implements ModelContract
     public int $passcount;
     public int $playcount;
     public int $ranked;
-    public int $url;
+    public string $url;
     public string $checksum;
     public BeatmapFailtimes $failtimes;
     public ?int $max_combo;
+    public Beatmapset $beatmapset;
 }

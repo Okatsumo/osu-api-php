@@ -19,4 +19,6 @@ class User extends BaseModel implements ModelContract
     public bool $pm_friends_only;
     public ?bool $profile_colour;
     public ?bool $username;
+    public Country $country;
+    public UserCover $cover;
 }

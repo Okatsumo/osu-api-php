@@ -4,16 +4,16 @@ namespace Katsu\OsuApiPhp\Endpoints;
 
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
-use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPack;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
-class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
+class GetBeatmapPackById extends BaseEndpoint implements EndpointContract
 {
-    public int $id;
+    public string $pack;
 
-    public function setId(int $id): self
+    public function setPack(string $tag): self
     {
-        $this->id = $id;
+        $this->pack = $tag;
 
         return $this;
     }
@@ -30,16 +30,19 @@ class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
 
     public function getUri(): string
     {
-        return str_replace(['{id}'], [$this->id], 'beatmapsets/{id}');
+        return str_replace(['{pack}'], [$this->pack], 'beatmaps/packs/{pack}');
     }
 
     public function getHeaders(): array
     {
-        return ['Accept' => 'application/json'];
+        return [
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
+        ];
     }
 
     public function getModel(): string
     {
-        return Beatmapset::class;
+        return BeatmapPack::class;
     }
 }

@@ -42,7 +42,9 @@ class Serializer
             } elseif (is_array($propertyValue)) {
                 $model->$propertyName = $this->setArrayProperty($propertyValue);
             } else {
-                $model->$propertyName = $this->setComplexProperty($propertyValue, $propertyType);
+                if (array_key_exists($propertyName, $data)) {
+                    $model->$propertyName = $this->setComplexProperty($propertyValue, $propertyType);
+                }
             }
         }
 
@@ -87,12 +89,17 @@ class Serializer
         return $this->serialize((array) $propertyValue, $propertyType);
     }
 
-    protected function setDateTime(string|null $date): ?\DateTime
+    protected function setDateTime(?string $date): ?\DateTime
     {
-        if (is_null($date)) {
+        $date = \DateTime::createFromFormat(
+            'Y-m-d\TH:i:sO',
+            str_replace('.000000', '', $date)
+        );
+
+        if (!$date) {
             return null;
         }
 
-        return \DateTime::createFromFormat('Y-m-d\TH:i:sO', $date);
+        return $date;
     }
 }
