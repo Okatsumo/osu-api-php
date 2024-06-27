@@ -125,9 +125,9 @@ class Client extends BaseClient
      * @param int   $userId
      * @param array $params
      *
-     * @return Contracts\ModelContract|BeatmapScoreLegacy
-     *@throws OsuApiException
+     * @throws OsuApiException
      *
+     * @return Contracts\ModelContract|BeatmapScoreLegacy
      */
     public function getUserBeatmapScore(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|BeatmapScoreLegacy
     {
