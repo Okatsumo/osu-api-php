@@ -1,11 +1,14 @@
 <?php
 
-namespace Katsu\OsuApiPhp\Models;
+namespace Katsu\OsuApiPhp\Models\Score;
 
 use Katsu\OsuApiPhp\Contracts\ModelContract;
+use Katsu\OsuApiPhp\Models\BaseModel;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
+use Katsu\OsuApiPhp\Models\CurrentUserAttributes;
+use Katsu\OsuApiPhp\Models\User;
 
-class UserScore extends BaseModel implements ModelContract
+class UserScoreLegacy extends BaseModel implements ModelContract
 {
     public int $id;
     public float $accuracy;
@@ -28,7 +31,7 @@ class UserScore extends BaseModel implements ModelContract
     public ScoreStatistics $statistics;
     public string $type;
     public int $user_id;
-    public ScoreCurrentUserAttributes $current_user_attributes;
+    public CurrentUserAttributes $current_user_attributes;
     public Beatmap $beatmap;
     public User $user;
 }

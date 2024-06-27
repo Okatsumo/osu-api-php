@@ -1,8 +1,9 @@
 <?php
 
-namespace Katsu\OsuApiPhp\Models;
+namespace Katsu\OsuApiPhp\Models\Score;
 
 use Katsu\OsuApiPhp\Contracts\ModelContract;
+use Katsu\OsuApiPhp\Models\BaseModel;
 
 class ScoreStatistics extends BaseModel implements ModelContract
 {

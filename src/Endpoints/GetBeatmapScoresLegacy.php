@@ -4,24 +4,16 @@ namespace Katsu\OsuApiPhp\Endpoints;
 
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
-use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScoreLegacy;
+use Katsu\OsuApiPhp\Models\Score\UserScores;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
-class GetUserBeatmapScore extends BaseEndpoint implements EndpointContract
+class GetBeatmapScoresLegacy extends BaseEndpoint implements EndpointContract
 {
     public int $beatmapId;
-    public int $userId;
 
     public function setBeatmapId(int $id): self
     {
         $this->beatmapId = $id;
-
-        return $this;
-    }
-
-    public function setUserId(int $id): self
-    {
-        $this->userId = $id;
 
         return $this;
     }
@@ -38,7 +30,7 @@ class GetUserBeatmapScore extends BaseEndpoint implements EndpointContract
 
     public function getUri(): string
     {
-        return str_replace(['{beatmap}', '{user}'], [$this->beatmapId, $this->userId], 'beatmaps/{beatmap}/scores/users/{user}');
+        return str_replace(['{beatmap}'], [$this->beatmapId], 'beatmaps/{beatmap}/scores');
     }
 
     public function getHeaders(): array
@@ -51,6 +43,6 @@ class GetUserBeatmapScore extends BaseEndpoint implements EndpointContract
 
     public function getModel(): string
     {
-        return BeatmapScoreLegacy::class;
+        return UserScores::class;
     }
 }

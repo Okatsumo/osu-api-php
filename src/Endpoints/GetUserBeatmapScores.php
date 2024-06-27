@@ -4,7 +4,7 @@ namespace Katsu\OsuApiPhp\Endpoints;
 
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
-use Katsu\OsuApiPhp\Models\UserScores;
+use Katsu\OsuApiPhp\Models\Score\UserScores;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
 class GetUserBeatmapScores extends BaseEndpoint implements EndpointContract

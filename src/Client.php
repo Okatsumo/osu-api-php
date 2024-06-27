@@ -9,6 +9,7 @@ use Katsu\OsuApiPhp\Endpoints\GetBeatmapById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPackById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPacks;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapScores;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmapScoresLegacy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScore;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScores;
@@ -18,10 +19,11 @@ use Katsu\OsuApiPhp\Exceptions\OsuApiException;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPack;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPacks;
-use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScore;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScoreLegacy;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetsSearch;
-use Katsu\OsuApiPhp\Models\UserScores;
+use Katsu\OsuApiPhp\Models\Score\UserScoreLegacy;
+use Katsu\OsuApiPhp\Models\Score\UserScores;
 use Katsu\OsuApiPhp\Runtime\BaseClient;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
@@ -123,11 +125,11 @@ class Client extends BaseClient
      * @param int   $userId
      * @param array $params
      *
-     * @throws OsuApiException
+     * @return Contracts\ModelContract|BeatmapScoreLegacy
+     *@throws OsuApiException
      *
-     * @return Contracts\ModelContract|BeatmapScore
      */
-    public function getUserBeatmapScore(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|BeatmapScore
+    public function getUserBeatmapScore(int $beatmapId, int $userId, array $params = []): Contracts\ModelContract|BeatmapScoreLegacy
     {
         return $this
             ->prepareEndpoint(GetUserBeatmapScore::class)
@@ -161,6 +163,26 @@ class Client extends BaseClient
     /**
      *  Returns the top scores for a beatmap. Depending on user preferences, this may only show legacy scores.
      *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-scores.
+     *
+     * @param int   $beatmapId
+     * @param array $params
+     *
+     * @throws OsuApiException
+     *
+     * @return Contracts\ModelContract|UserScoreLegacy
+     */
+    public function getBeatmapScoresLegacy(int $beatmapId, array $params = []): Contracts\ModelContract|UserScoreLegacy
+    {
+        return $this
+            ->prepareEndpoint(GetBeatmapScoresLegacy::class)
+            ->setParameters($params)
+            ->setBeatmapId($beatmapId)
+            ->execute();
+    }
+
+    /**
+     *  Returns the top scores for a beatmap. Depending on user preferences, this may only show legacy scores.
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-scores-non-legacy.
      *
      * @param int   $beatmapId
      * @param array $params
