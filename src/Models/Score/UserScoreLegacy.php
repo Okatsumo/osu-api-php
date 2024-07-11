@@ -4,7 +4,7 @@ namespace Katsu\OsuApiPhp\Models\Score;
 
 use Katsu\OsuApiPhp\Contracts\ModelContract;
 use Katsu\OsuApiPhp\Models\BaseModel;
-use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapExtended;
 use Katsu\OsuApiPhp\Models\CurrentUserAttributes;
 use Katsu\OsuApiPhp\Models\User;
 
@@ -32,6 +32,6 @@ class UserScoreLegacy extends BaseModel implements ModelContract
     public string $type;
     public int $user_id;
     public CurrentUserAttributes $current_user_attributes;
-    public Beatmap $beatmap;
+    public BeatmapExtended $beatmap;
     public User $user;
 }

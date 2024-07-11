@@ -4,20 +4,12 @@ namespace Katsu\OsuApiPhp\Endpoints;
 
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
-use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapExtended;
+use Katsu\OsuApiPhp\Models\Beatmaps\Beatmaps;
+use Katsu\OsuApiPhp\Models\Score\UserScores;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
-class GetBeatmapById extends BaseEndpoint implements EndpointContract
+class GetBeatmaps extends BaseEndpoint implements EndpointContract
 {
-    public int $id;
-
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
     public function getIsAuthRequired(): bool
     {
         return true;
@@ -30,16 +22,19 @@ class GetBeatmapById extends BaseEndpoint implements EndpointContract
 
     public function getUri(): string
     {
-        return str_replace(['{id}'], [$this->id], 'beatmaps/{id}');
+        return 'beatmaps';
     }
 
     public function getHeaders(): array
     {
-        return ['Accept' => 'application/json'];
+        return [
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json',
+        ];
     }
 
     public function getModel(): string
     {
-        return BeatmapExtended::class;
+        return Beatmaps::class;
     }
 }

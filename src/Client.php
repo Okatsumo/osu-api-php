@@ -8,6 +8,7 @@ use Katsu\OsuApiPhp\Dto\Proxy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPackById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPacks;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmaps;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapScores;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapScoresLegacy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
@@ -16,9 +17,10 @@ use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScores;
 use Katsu\OsuApiPhp\Endpoints\LookupBeatmapsets;
 use Katsu\OsuApiPhp\Endpoints\SearchBeatmapsets;
 use Katsu\OsuApiPhp\Exceptions\OsuApiException;
-use Katsu\OsuApiPhp\Models\Beatmaps\Beatmap;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapExtended;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPack;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPacks;
+use Katsu\OsuApiPhp\Models\Beatmaps\Beatmaps;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScoreLegacy;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetsSearch;
@@ -53,11 +55,11 @@ class Client extends BaseClient
      *
      * @param int $id
      *
-     * @throws OsuApiException
+     * @return ModelContract|BeatmapExtended
+     *@throws OsuApiException
      *
-     * @return ModelContract|Beatmap
      */
-    public function getBeatmapById(int $id): Contracts\ModelContract|Beatmap
+    public function getBeatmapById(int $id): Contracts\ModelContract|BeatmapExtended
     {
         return $this
             ->prepareEndpoint(GetBeatmapById::class)
@@ -214,6 +216,23 @@ class Client extends BaseClient
         return $this
             ->prepareEndpoint(GetBeatmapPacks::class)
             ->setParameters($params)
+            ->execute();
+    }
+
+    /**
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmaps.
+     *
+     * @param array $ids
+     *
+     * @return Contracts\ModelContract|Beatmaps
+     *@throws OsuApiException
+     *
+     */
+    public function getBeatmaps(array $ids = []): Contracts\ModelContract|Beatmaps
+    {
+        return $this
+            ->prepareEndpoint(GetBeatmaps::class)
+            ->setParameters(['ids' => $ids])
             ->execute();
     }
 

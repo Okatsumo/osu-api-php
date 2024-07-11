@@ -5,7 +5,7 @@ namespace Katsu\OsuApiPhp\Models\Beatmaps;
 use Katsu\OsuApiPhp\Contracts\ModelContract;
 use Katsu\OsuApiPhp\Models\BaseModel;
 
-class Beatmap extends BaseModel implements ModelContract
+class BeatmapExtended extends BaseModel implements ModelContract
 {
     public int $id;
     public int $beatmapset_id;
