@@ -5,6 +5,7 @@ namespace Katsu\OsuApiPhp;
 use Katsu\OsuApiPhp\Contracts\ModelContract;
 use Katsu\OsuApiPhp\Dto\OAuthClient;
 use Katsu\OsuApiPhp\Dto\Proxy;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmapAttributes;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPackById;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapPacks;
@@ -233,6 +234,31 @@ class Client extends BaseClient
         return $this
             ->prepareEndpoint(GetBeatmaps::class)
             ->setParameters(['ids' => $ids])
+            ->execute();
+    }
+
+    /**
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmap-attributes.
+     *
+     * @param int $id
+     * @param int|array|null $mods
+     * @param null $ruleset
+     * @param int|null $ruleset_id
+     * @return ModelContract|Beatmaps
+     * @throws OsuApiException
+     */
+    public function getBeatmapAttributes(int $id, int|array $mods = null, $ruleset = null, int $ruleset_id = null): Contracts\ModelContract|Beatmaps
+    {
+        $params = [];
+
+        if (!is_null($mods)) $params['mods'] = $mods;
+        if (!is_null($ruleset)) $params['ruleset'] = $ruleset;
+        if (!is_null($ruleset_id)) $params['ruleset_id'] = $ruleset_id;
+
+        return $this
+            ->prepareEndpoint(GetBeatmapAttributes::class)
+            ->setId($id)
+            ->setParameters($params)
             ->execute();
     }
 
