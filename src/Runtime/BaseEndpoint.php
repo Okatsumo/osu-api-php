@@ -70,7 +70,7 @@ abstract class BaseEndpoint implements EndpointContract
 
             return $this->transformResponseBody($data);
         } catch (GuzzleException $ex) {
-            $this->exceptionHandler($ex);
+            $this->exceptionHandler($ex, $this->getUri());
         }
     }
 
@@ -87,12 +87,12 @@ abstract class BaseEndpoint implements EndpointContract
     /**
      * @throws OsuApiException
      */
-    protected function exceptionHandler(GuzzleException $ex): void
+    protected function exceptionHandler(GuzzleException $ex, string $uri): void
     {
         if ($ex->getCode() === 401) {
             throw new OsuApiException('401 Unauthorized', 401);
         } elseif ($ex->getCode() === 404) {
-            throw new OsuApiException('404 Resource not found', 404);
+            throw new OsuApiException("404 Resource not found (uri: base_url/$uri)", 404);
         } elseif ($ex->getCode() === 0) {
             throw new OsuApiException('HTTP request error: API unavailable', 500);
         } else {

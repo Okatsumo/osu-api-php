@@ -13,6 +13,7 @@ use Katsu\OsuApiPhp\Endpoints\GetBeatmaps;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapScores;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapScoresLegacy;
 use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetById;
+use Katsu\OsuApiPhp\Endpoints\GetBeatmapsetDiscussionPosts;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScore;
 use Katsu\OsuApiPhp\Endpoints\GetUserBeatmapScores;
 use Katsu\OsuApiPhp\Endpoints\LookupBeatmapsets;
@@ -24,6 +25,7 @@ use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapPacks;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmaps;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapScoreLegacy;
 use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetDiscussionPosts;
 use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapsetsSearch;
 use Katsu\OsuApiPhp\Models\Score\UserScoreLegacy;
 use Katsu\OsuApiPhp\Models\Score\UserScores;
@@ -258,6 +260,26 @@ class Client extends BaseClient
         return $this
             ->prepareEndpoint(GetBeatmapAttributes::class)
             ->setId($id)
+            ->setParameters($params)
+            ->execute();
+    }
+
+    /**
+     *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmapset-discussion-posts.
+     *
+     * @return ModelContract|Beatmaps
+     * @throws OsuApiException
+     */
+    public function getBeatmapsetDiscussionPosts(): Contracts\ModelContract|BeatmapsetDiscussionPosts
+    {
+        $params = [];
+
+//        if (!is_null($mods)) $params['mods'] = $mods;
+//        if (!is_null($ruleset)) $params['ruleset'] = $ruleset;
+//        if (!is_null($ruleset_id)) $params['ruleset_id'] = $ruleset_id;
+
+        return $this
+            ->prepareEndpoint(GetBeatmapsetDiscussionPosts::class)
             ->setParameters($params)
             ->execute();
     }
