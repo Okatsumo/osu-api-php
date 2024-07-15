@@ -8,5 +8,6 @@ use Katsu\OsuApiPhp\Models\BaseModel;
 class BeatmapNominationSummary extends BaseModel implements ModelContract
 {
     public int $current;
-    public int $required;
+    public ?array $eligible_main_rulesets;
+    public ?BeatmapNominationSummaryRequiredMeta $required_meta;
 }

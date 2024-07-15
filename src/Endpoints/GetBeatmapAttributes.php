@@ -4,10 +4,10 @@ namespace Katsu\OsuApiPhp\Endpoints;
 
 use Katsu\OsuApiPhp\Contracts\EndpointContract;
 use Katsu\OsuApiPhp\Enums\HttpMethod;
-use Katsu\OsuApiPhp\Models\Beatmaps\Beatmapset;
+use Katsu\OsuApiPhp\Models\Beatmaps\BeatmapDifficultyAttributesList;
 use Katsu\OsuApiPhp\Runtime\BaseEndpoint;
 
-class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
+class GetBeatmapAttributes extends BaseEndpoint implements EndpointContract
 {
     public int $id;
 
@@ -25,12 +25,12 @@ class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
 
     public function getMethod(): HttpMethod
     {
-        return HttpMethod::GET;
+        return HttpMethod::POST;
     }
 
     public function getUri(): string
     {
-        return str_replace(['{id}'], [$this->id], 'beatmapsets/{id}');
+        return str_replace(['{beatmap}'], [$this->id], 'beatmaps/{beatmap}/attributes');
     }
 
     public function getHeaders(): array
@@ -40,6 +40,6 @@ class GetBeatmapsetById extends BaseEndpoint implements EndpointContract
 
     public function getModel(): string
     {
-        return Beatmapset::class;
+        return BeatmapDifficultyAttributesList::class;
     }
 }

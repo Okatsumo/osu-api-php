@@ -44,11 +44,11 @@ class Beatmapset extends BaseModel implements ModelContract
     public BeatmapsetsAvailability $availability;
 
     /**
-     * @var \Katsu\OsuApiPhp\Models\Beatmaps\Beatmap[]
+     * @var \Katsu\OsuApiPhp\Models\Beatmaps\BeatmapExtended[]
      */
     public array $beatmaps;
     /**
-     * @var \Katsu\OsuApiPhp\Models\Beatmaps\Beatmap[]
+     * @var \Katsu\OsuApiPhp\Models\Beatmaps\BeatmapExtended[]
      */
     public array $converts;
 
