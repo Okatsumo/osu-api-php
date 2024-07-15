@@ -267,16 +267,29 @@ class Client extends BaseClient
     /**
      *  Doc: https://osu.ppy.sh/docs/index.html#get-beatmapset-discussion-posts.
      *
+     * @param int|null $beatmapset_discussion_id
+     * @param int|null $limit
+     * @param int|null $page
+     * @param string|null $sort id_desc for newest first; id_asc for oldest first. Defaults to id_desc.
+     * @param array|null $types first, reply, system are the valid values. Defaults to reply.
+     * @param int|null $user
+     * @param string|null $with_deleted This param has no effect as api calls do not currently receive group permissions.
+     *
      * @return ModelContract|Beatmaps
+     *
      * @throws OsuApiException
      */
-    public function getBeatmapsetDiscussionPosts(): Contracts\ModelContract|BeatmapsetDiscussionPosts
+    public function getBeatmapsetDiscussionPosts(int $beatmapset_discussion_id = null, int $limit = null, int $page = null, string $sort = null, array $types = null, int $user = null, string $with_deleted = null): Contracts\ModelContract|BeatmapsetDiscussionPosts
     {
         $params = [];
 
-//        if (!is_null($mods)) $params['mods'] = $mods;
-//        if (!is_null($ruleset)) $params['ruleset'] = $ruleset;
-//        if (!is_null($ruleset_id)) $params['ruleset_id'] = $ruleset_id;
+        if (!is_null($beatmapset_discussion_id)) $params['beatmapset_discussion_id'] = $beatmapset_discussion_id;
+        if (!is_null($limit)) $params['limit'] = $limit;
+        if (!is_null($page)) $params['page'] = $page;
+        if (!is_null($sort)) $params['sort'] = $sort;
+        if (!is_null($types)) $params['types'] = $types;
+        if (!is_null($user)) $params['user'] = $user;
+        if (!is_null($with_deleted)) $params['with_deleted'] = $with_deleted;
 
         return $this
             ->prepareEndpoint(GetBeatmapsetDiscussionPosts::class)
